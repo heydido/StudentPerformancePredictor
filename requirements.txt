@@ -8,4 +8,5 @@ xgboost
 dill
 rich
 Flask
+streamlit
 # -e .
