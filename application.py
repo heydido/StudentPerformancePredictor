@@ -30,9 +30,10 @@ def predict_datapoint():
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(pred_df)
 
-        return render_template('home.html', results=results[0])
+        return render_template('home.html', results=results[0] if results[0] <= 100 else 100)
 
 
 if __name__ == '__main__':
+    # The default website is: http://127.0.0.1:5000/
     app.run(host='0.0.0.0')
 

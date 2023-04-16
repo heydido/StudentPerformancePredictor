@@ -13,17 +13,17 @@ st.set_page_config(
 st.header("Student Performance Predictor!")
 
 # User inputs
-st.sidebar.subheader('User Inputs:')
-gender = st.sidebar.selectbox("Gender:", ("male", "female"))
-race_ethnicity = st.sidebar.selectbox("race_ethnicity:", ("group A", "group B", "group C", "group D", "group E"))
-parental_level_of_education = st.sidebar.selectbox(
+st.subheader('User Inputs:')
+gender = st.selectbox("Gender:", ("male", "female"))
+race_ethnicity = st.selectbox("race_ethnicity:", ("group A", "group B", "group C", "group D", "group E"))
+parental_level_of_education = st.selectbox(
     "parental_level_of_education:", ("associate's degree", "bachelor's degree", "high school", "master's degree",
                                      "some college", "some high school")
 )
-lunch = st.sidebar.selectbox("lunch:", ("free/reduced", "standard"))
-test_preparation_course = st.sidebar.selectbox("test_preparation_course:", ("none", "completed"))
-reading_score = st.sidebar.select_slider("Reading Score:", options=list(range(101)))
-writing_score = st.sidebar.select_slider("Writing Score:", options=list(range(101)))
+lunch = st.selectbox("lunch:", ("free/reduced", "standard"))
+test_preparation_course = st.selectbox("test_preparation_course:", ("none", "completed"))
+reading_score = st.select_slider("Reading Score:", options=list(range(101)))
+writing_score = st.select_slider("Writing Score:", options=list(range(101)))
 
 
 data = CustomData(
@@ -36,4 +36,5 @@ predict_pipeline = PredictPipeline()
 results = predict_pipeline.predict(pred_df)
 
 # Prediction
-st.write('The predicted maths score is: ', results[0])
+if data and reading_score > 0 and writing_score > 0:
+    st.write('The predicted maths score is: ', results[0] if results[0] <= 100 else 100)
