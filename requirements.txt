@@ -9,4 +9,4 @@ dill
 rich
 Flask
 streamlit
-# -e .
+# -e .  # creates project as a package (equivalent to running -> pyhton setup.py install) when running pip install -r requirements.txt (un-comment this line)
