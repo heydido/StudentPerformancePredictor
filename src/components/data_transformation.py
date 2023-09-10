@@ -21,7 +21,8 @@ class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
 
-    def get_data_transformer_obj(self):
+    @staticmethod
+    def get_data_transformer_obj():
         try:
             numerical_col = ['reading_score', 'writing_score']
             categorical_col = ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch',
@@ -51,6 +52,8 @@ class DataTransformation:
                 ]
             )
 
+            logging.info('Preprocessor is ready!')
+
             return preprocessor
 
         except Exception as e:
@@ -58,6 +61,7 @@ class DataTransformation:
 
     def initiate_data_transformation(self, train_path, test_path):
         try:
+            logging.info('Data Transformation started ...')
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
 
@@ -66,7 +70,6 @@ class DataTransformation:
 
             preprocessing_obj = self.get_data_transformer_obj()
             target_col_name = 'math_score'
-            numerical_col = ['reading_score', 'writing_score']
 
             input_feature_train_df = train_df.drop(columns=[target_col_name], axis=1)
             target_feature_train_df = train_df[target_col_name]
@@ -91,4 +94,5 @@ class DataTransformation:
             return train_arr, test_arr, self.data_transformation_config.preprocessor_obj_file_path
 
         except Exception as e:
+            logging.info('Exception occurred in Data Transformation.')
             raise CustomException(e, sys)

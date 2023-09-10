@@ -77,6 +77,7 @@ class ModelTrainer:
 
             }
 
+            logging.info('Initiating model training ...')
             model_report: dict = evaluate_models(x_train, y_train, x_test, y_test, models, param=params)
 
             best_model_score = max(sorted(model_report.values()))
@@ -85,14 +86,22 @@ class ModelTrainer:
             best_model = models[best_model_name]
 
             if best_model_score < 0.6:
-                raise CustomException('No best model found. All have r2_score less than 0.6!')
+                raise CustomException('No best model found. All have r2_score less than 0.6!', sys)
 
-            logging.info('Found best model on both training and testing dataset.')
+            print(
+                f'Found best model on both training and testing dataset. '
+                f'Model name: {best_model_name}, and Test r2_score = {best_model_score}'
+            )
+            logging.info(
+                f'Found best model on both training and testing dataset. '
+                f'Model name: {best_model_name}, and Test r2_score = {best_model_score}')
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
                 obj=best_model
             )
+
+            logging.info('Saved best model as model.pkl')
 
             predicted = best_model.predict(x_test)
             r2_square = r2_score(y_test, predicted)
@@ -100,4 +109,5 @@ class ModelTrainer:
             return r2_square
 
         except Exception as e:
+            logging.info('Error occurred in model training!')
             raise CustomException(e, sys)
